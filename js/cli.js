@@ -96,7 +96,6 @@ ${can.help}
     }
   };
 
-exports.hey  = 'there!';
 exports.con  = con;
 exports.log  = log;
 exports.say  = say;
