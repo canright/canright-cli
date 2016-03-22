@@ -1,0 +1,43 @@
+{
+  "name": "cli",
+  "version": "0.1.0",
+  "description": "Minimalist CLI for web server",
+  "private": true,
+  "author": "Jim Canright",
+  "license": "MIT",
+  "main": "server.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/canright.cli.git"
+  },
+
+  "keywords": [
+    "CLI",
+    "Command Line Interface",
+    "CLI for web server",
+    "Javascript ES6/2015",
+    "node",
+    "CLI server"
+  ],
+
+  "scripts": {
+    "help": "echo lint, build, start, loop, test",
+    "lint": "eslint *.js, js/*.js",
+    "build": "npm run lint",
+    "start": "node server",
+    "loop": "npm run build && start",
+    "test": "mocha"
+  },
+
+  "dependencies": {
+    "body-parser": "*",
+    "morgan": "*",
+    "express": "*"
+  },
+  
+  "devDependencies": {
+    "mocha": "*"
+  }
+
+}
