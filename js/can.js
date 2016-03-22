@@ -1,25 +1,28 @@
 /*jslint node: true */
 'use strict';
 
-const cli = require('./cli');
-
-const help = `
-> now    -- echo current date and time.`;
+const cli = require('./cli'),
+  ask = s => {console.log(s); cli.con.prompt()},
+  heys = ['there', 'now', 'good looking', 'is for horses'],
+  help = `
+> now    -- echo current date and time.
+> hey    -- random heys.`;
 
 function exe(r) {
   switch(r[0]) {
+
     case 'now':
-      cli.ask('It is ' + new Date());
+      ask('It is ' + new Date());
       break;
 
-    case '':
-      cli.ask(cli.help);
+    case 'hey':
+      ask(heys[Math.floor((Math.random() * heys.length))]);
       break;
 
     default:
-      console.log('Command arguments:');
-      r.map((s,k) => console.log(`${k}: ${s}.`));
-      console.log('------------------');
+      ask(`command arguments: ${r.map(s => s)}
+------------------
+OK?`);
       break;
   }
 }

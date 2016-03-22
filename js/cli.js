@@ -8,6 +8,7 @@ var inCli = false,
 
 const readline = require('readline'),
   con = readline.createInterface(process.stdin, process.stdout),
+
   log = process.stdio,
   CLIOF = '',
   CLION = '> ',
@@ -21,11 +22,11 @@ const readline = require('readline'),
 - Incoming event logs are queued.
 
 CLI Commands:
+${can.help}
 
 > help   -- this help.
 > flush  -- flush queued logs and continue with the CLI.
 > resume -- resume logging after flushing queued logs and closing the CLI.
-${can.help}
 > exit   -- stop the server.  Exit node.  Stop the server.
 `,
 
@@ -84,6 +85,7 @@ ${can.help}
         process.exit(0);
         break;
 
+      case '':
       case 'help':
         ask(help);
         break;
@@ -94,9 +96,9 @@ ${can.help}
     }
   };
 
-exports.ask  = ask;
+exports.hey  = 'there!';
+exports.con  = con;
 exports.log  = log;
-exports.help = help;
 exports.say  = say;
 exports.out  = process.stdout;
 
