@@ -16,15 +16,13 @@ At runtime, it works like this:
 - Incoming event logs are queued.
 
 CLI Commands:
+- \> now    -- echo current date and time.
+- \> hey    -- random heys.
 
-\> help   -- this help.
-\> flush  -- flush queued logs and continue with the CLI.
-\> resume -- resume logging after flushing queued logs and closing the CLI.
-\> exit   -- stop the server.  Exit node.  Stop the server.
-
-\> now    -- echo current date and time.
-
-\> can    -- interesting stuff.
+- \> help   -- this help.
+- \> flush  -- flush queued logs and continue with the CLI.
+- \> resume -- resume logging after flushing queued logs and closing the CLI.
+- \> exit   -- stop the server.  Exit node.  Stop the server.
 
 \> _
 -----------------------------------
