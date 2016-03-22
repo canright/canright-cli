@@ -10,7 +10,7 @@ At runtime, it works like this:
 
 #### Enter 'help' to see cli.help:
 
------------------------------------
+- ----------------------------------
 - The CLI is active.
 - Logging to the console is paused.
 - Incoming event logs are queued.
@@ -24,8 +24,8 @@ CLI Commands:
 - \> resume -- resume logging after flushing queued logs and closing the CLI.
 - \> exit   -- stop the server.  Exit node.  Stop the server.
 
-\> _
------------------------------------
+- \> _
+- ----------------------------------
 
 #### Notes:
 
@@ -39,7 +39,6 @@ The cli buffers, queues and allows you to manage event logs while the CLI is act
 - Demonstrates simple CLI integrated with web server.
 - Demonstrates functional programming.
 - Demonstrates minimalist node/express web server.
-
 
 #### Modules:
 
