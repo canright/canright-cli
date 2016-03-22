@@ -5,8 +5,8 @@ const app = (require('express'))(),
   parser  = require('body-parser'),
   morgan  = require('morgan'),
   PORT    = process.env.PORT || 3000,
-  cli     = require('./cli.js');
-//can     = require('../can');
+  cli     = require('./js/cli.js');
+//can     = require('./js/can.js');
 
 app.use(parser.json());
 app.use(parser.urlencoded({extended: false}));
