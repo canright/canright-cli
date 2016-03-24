@@ -62,37 +62,34 @@ ${cmds.help}
     con.setPrompt(CLIOF);
   },
 
+  exeFlush = () => {
+    clino();
+    say('Logs are flushed.');
+    clion();
+  },
+
+  exeResume = () => {
+    clino();
+    say('Logs are flushed.');
+    say('The CLI is off.');
+    say('Incomming events log directly to the console.');
+    say('Enter to return to the CLI.');
+  },
+
+  exeExit = () => {
+    clino();
+    say('Exiting node');
+    process.exit(0);
+  },
+
   exe = r => {
     switch (r[0].toLowerCase()) {
-
-      case 'flush':
-        clino();
-        say('Logs are flushed.');
-        clion();
-        break;
-
-      case 'resume':
-        clino();
-        say('Logs are flushed.');
-        say('The CLI is off.');
-        say('Incomming events log directly to the console.');
-        say('Enter to return to the CLI.');
-        break;
-
-      case 'exit':
-        clino();
-        say('Exiting node');
-        process.exit(0);
-        break;
-
-      case '':
-      case 'help':
-        ask(help);
-        break;
-
-      default:
-        cmds.exe(r);
-        break;
+      case 'flush' : exeFlush() ; break;
+      case 'resume': exeResume(); break;
+      case 'exit'  : exeExit();   break;
+      case ''      : ask(help);   break;
+      case 'help'  : ask(help);   break;
+      default      : cmds.exe(r); break;
     }
   };
 
