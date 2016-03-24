@@ -1,7 +1,7 @@
 /*jslint node: true */
 'use strict';
 
-const can = require('./can');
+const cmds = require('./commands');
 
 var inCli = false,
   q = [];
@@ -22,7 +22,7 @@ const readline = require('readline'),
 - Incoming event logs are queued.
 
 CLI Commands:
-${can.help}
+${cmds.help}
 
 > help   -- this help.
 > flush  -- flush queued logs and continue with the CLI.
@@ -91,7 +91,7 @@ ${can.help}
         break;
 
       default:
-        can.exe(r);
+        cmds.exe(r);
         break;
     }
   };
