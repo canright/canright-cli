@@ -6,14 +6,11 @@ const cmds = require('./commands');
 var inCli = false,
   q = [];
 
-const readline = require('readline'),
-  con = readline.createInterface(process.stdin, process.stdout),
-
+const readline = require('readline');
+const con = readline.createInterface(process.stdin, process.stdout),
   log = process.stdio,
   CLIOF = '',
   CLION = '> ',
-  CLIER = '? ',
-  CLINO = '. ',
   MGOFF = 'CLI is off.  Enter to turn it on.',
 
   help =
@@ -62,6 +59,11 @@ ${cmds.help}
     con.setPrompt(CLIOF);
   },
 
+  processExit = () => {
+    console.log('[> close]');
+    process.exit(0);
+  },
+
   exeFlush = () => {
     clino();
     say('Logs are flushed.');
@@ -79,7 +81,7 @@ ${cmds.help}
   exeExit = () => {
     clino();
     say('Exiting node');
-    process.exit(0);
+    processExit();
   },
 
   exe = r => {
@@ -102,8 +104,7 @@ console.log(MGOFF);
 con.setPrompt(CLIOF);
 
 con.on('close', () => {
-  console.log('[> close]');
-  process.exit(0);
+  processExit();
 });
 
 con.on('line', (line) => {

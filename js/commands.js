@@ -1,8 +1,8 @@
 /*jslint node: true */
 'use strict';
 
-const cli = require('./cli'),
-  ask = s => {console.log(s); cli.con.prompt()},
+const cli = require('./cli');
+const ask = s => {console.log(s); cli.con.prompt()},
   heys = ['there', 'now', 'good looking', 'is for horses'],
   help = `
 > now    -- echo current date and time.
@@ -16,7 +16,7 @@ function exe(r) {
       break;
 
     case 'hey':
-      ask(heys[Math.floor((Math.random() * heys.length))]);
+      ask(heys[Math.floor(Math.random() * heys.length)]);
       break;
 
     default:

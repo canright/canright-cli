@@ -2,7 +2,7 @@
   "name": "cli",
   "version": "0.1.0",
   "description": "Minimalist CLI for web server",
-  "private": true,
+  "private": false,
   "author": "Jim Canright",
   "license": "MIT",
   "main": "server.js",
