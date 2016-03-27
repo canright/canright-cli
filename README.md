@@ -20,9 +20,9 @@ CLI Commands:
 - \> hey    -- random heys.
 
 - \> help   -- this help.
-- \> flush  -- flush queued logs and continue with the CLI.
-- \> resume -- resume logging after flushing queued logs and closing the CLI.
-- \> exit   -- stop the server.  Exit node.  Stop the server.
+- \> flush queue  -- flush the queue, then continue the CLI with ongoing events piped to the queue.
+- \> leave cli    -- flush the queue, leave the CLI and resume logging events directly to console.
+- \> exit server  -- flush the queue, leave the CLI and shutdown the node server process.
 
 - \> _
 - ----------------------------------

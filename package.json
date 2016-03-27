@@ -1,6 +1,6 @@
 {
   "name": "cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Minimalist CLI for web server",
   "private": false,
   "author": "Jim Canright",
@@ -17,16 +17,18 @@
     "Command Line Interface",
     "CLI for web server",
     "Javascript ES6/2015",
+    "typescript",
     "node",
     "CLI server"
   ],
 
   "scripts": {
-    "help": "echo lint, build, start, loop, test",
-    "lint": "eslint *.js, js/*.js",
-    "build": "npm run lint",
+    "help": "echo tsc, lint, build, start, loop, test",
+    "tsc": "tsc",
+    "lint": "eslint *.js, lib/*.js",
+    "build": "npm run tsc && npm run lint",
     "start": "node server",
-    "loop": "npm run build && start",
+    "loop": "npm run build && npm start",
     "test": "mocha"
   },
 

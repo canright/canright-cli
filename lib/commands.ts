@@ -1,14 +1,13 @@
-/*jslint node: true */
-'use strict';
+import cli = require('./cli');
 
-const cli = require('./cli');
-const ask = s => {console.log(s); cli.con.prompt()},
-  heys = ['there', 'now', 'good looking', 'is for horses'],
-  help = `
+const ask = (s: String) => {console.log(s); cli.con.prompt()},
+  heys: (String[]) = ['there', 'now', 'good looking', 'is for horses'];
+
+export const help = `
 > now    -- echo current date and time.
 > hey    -- random heys.`;
 
-function exe(r) {
+export function exe(r: String[]) {
   switch(r[0]) {
 
     case 'now':
@@ -26,5 +25,3 @@ OK?`);
       break;
   }
 }
-exports.help = help;
-exports.exe = exe;
