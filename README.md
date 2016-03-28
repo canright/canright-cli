@@ -2,7 +2,7 @@
 
 ## A baseline CLI for a web server.
 
-This is a minimalist, baseline CLI ready to be filled in as required.  This is a good wrapping for the implementation of a CLI application.
+This is a minimalist, baseline CLI ready to be filled in as required.  It is intended as a wrapper for the implementation of a CLI application.
 
 At runtime, it works like this:
 
@@ -18,7 +18,7 @@ Upon entering an empty line, CLI puts this to the console:
     - Incoming event logs are queued.
     - The CLI is active. Try "help".
 
-#### Enter 'help' to see get this help:
+#### Enter 'help' to see this:
 
     CLI Commands:
 
