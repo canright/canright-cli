@@ -122,7 +122,7 @@ ${cmds.help}
       }
   };
 
-export const say = s => { // say the message to the queued console.
+export const say = (s: String) => { // say the message to the queued console.
   if (inCli)
     q.push(s);
   else {
@@ -138,7 +138,7 @@ con.on('close', () => {
   processExit();
 });
 
-con.on('line', (line) => {
+con.on('line', (line: String) => {
   if (!line.length && !inCli) {
     con.setPrompt(CLION);
     inCli = true;

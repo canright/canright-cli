@@ -1,7 +1,19 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "target":"ES6",
     "module": "commonjs",
-    "moduleResolution": "classic"
-  }
+    "moduleResolution": "classic",
+    "declaration": true,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": false
+
+  },
+  "files": [
+    "server.ts",
+    "lib/cli.ts",
+    "lib/commands.ts"
+  ]
 }

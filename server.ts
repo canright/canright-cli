@@ -1,5 +1,7 @@
-/// <reference path='./declarations/node.d.ts' />
-/// <reference path='./declarations/express.d.ts' />
+/// <reference path='./node.d.ts' />
+/// <reference path='./node_modules/express/express.d.ts' />
+/// <reference path='./node_modules/body-parser/body-parser.d.ts' />
+/// <reference path='./node_modules/morgan/morgan.d.ts' />
 
 import express= require('express');
 import parser = require('body-parser');
@@ -7,8 +9,8 @@ import morgan = require('morgan');
 import cli    = require('./lib/cli');
 
 const PORT: number = process.env.PORT || 3000,
-  put = (s: String) => console.log(s),
-  app = express();
+  put = (s: String) => console.log(s);
+const app = express();
 
 app.use(parser.json());
 app.use(parser.urlencoded({extended: false}));
