@@ -9,7 +9,7 @@
 
   "repository": {
     "type": "git",
-    "url": "git://github.com/canright.cli.git"
+    "url": "git://github.com/canright/canright-cli.git"
   },
 
   "keywords": [
@@ -28,18 +28,13 @@
     "lint": "eslint *.js, lib/*.js",
     "build": "npm run tsc && npm run lint",
     "start": "node server",
-    "loop": "npm run build && npm start",
-    "test": "mocha"
+    "loop": "npm run build && npm start"
   },
 
   "dependencies": {
     "body-parser": "*",
     "morgan": "*",
     "express": "*"
-  },
-  
-  "devDependencies": {
-    "mocha": "*"
   }
-
+  
 }
