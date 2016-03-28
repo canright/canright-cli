@@ -23,7 +23,7 @@
   ],
 
   "scripts": {
-    "help": "echo tsc, lint, build, start, loop, test",
+    "help": "echo tsc, lint, build, start, loop",
     "tsc": "tsc",
     "lint": "eslint *.js, lib/*.js",
     "build": "npm run tsc && npm run lint",

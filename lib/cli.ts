@@ -11,18 +11,20 @@ const CLIOF: string = '',
   CLION: string = '> ',
   MGOFF: string = 'CLI is off.  Enter to turn it on.',
 
-  help:string =
-`- The CLI is active.
-- Logging to the console is paused.
+  TURNON: string =
+`- Logging to the console is paused.
 - Incoming event logs are queued.
+- The CLI is active. Try "help".
+`,
 
-CLI Commands:
+  help:string =
+`CLI Commands:
 ${cmds.help}
 
 > help        -- this help.
 > flush queue -- flush queued logs and continue with the CLI.
-> leave cli   -- leave the cli, flush queued logs, and log ongoing events directly to the console.
-> exit server -- leave the cli. flush queued logs, and stop the server.
+> leave cli   -- flush queued logs and resume normal logging.
+> exit server -- flush queued logs and stop the server.
 `,
 
   put = (s: String) => console.log(s),
@@ -142,7 +144,7 @@ con.on('line', (line: String) => {
   if (!line.length && !inCli) {
     con.setPrompt(CLION);
     inCli = true;
-    ask('CLI is ON. Try "help".');
+    ask(TURNON);
   } else
     if (inCli)
       exe(line.trim().split(' '));
