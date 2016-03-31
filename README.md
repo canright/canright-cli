@@ -41,11 +41,12 @@ The main server module demonstrates usage.  It is a minimum express web server t
 
 The CLI module buffers, queues and allows you to manage the flow of event logs while the CLI is active.
 
-The CLI facilitates management of the flow of logged events to the console.  It offers a minimal interface that enables the user to easily pause and resume that flow.  The cli  passes commands forward to the exe function in the commands sub-module (commands.ts/js).
+The CLI facilitates management of the flow of logged events to the console.  It offers a minimal interface that enables the user to easily pause and resume that flow.  The CLI looks for and executes its base commands ('help', 'info' 'exit', '') and passes the rest on to applicatin command processor - the exe function in the commands sub-module.
 
-The commands sub-module is a stub in which to add application specific CLI commands.  For demonstration purposes, commands implements two trivial commands, 'now' and 'hey'.
+The commands sub-module (lib/commands.ts/js) is a stub in which to add application specific CLI commands.  For demonstration purposes, commands implements two trivial commands, 'now' and 'hey'.
 
-The exe function receives an array of strings - the space delimited command and arguments.
+The CLI interprets a line of text from the console as a space-delimited list to yield an array of command arguments.
+It passes that array of command arguments to the exe function in the commands sub-module.
 
 #### Features
 
