@@ -22,16 +22,15 @@ Upon entering an empty line, CLI puts this to the console:
 
     CLI Commands:
 
-    > now         -- echo current date and time.
-    > hey         -- random heys.
+    > now     -- echo current date and time.
+    > hey     -- random heys.
 
-    > help        -- this help.
-    > flush queue -- flush queued logs and continue with the CLI.
-    > leave cli   -- flush queued logs and resume normal logging.
-    > exit server -- flush queued logs and stop the server.
+    > <enter> -- toggle log flow to console - pause or resume flow.
+    > help    -- this help.
+    > info    -- system information.
+    > exit    -- flush logs and stop the server.
 
     > _
-
 
 #### Notes:
 
@@ -44,11 +43,9 @@ The CLI module buffers, queues and allows you to manage event logs while the CLI
 
 The CLI module handles the mechanics of entering and leaving the CLI by directly handling these commands:
 
+- enter blank line to toggle (pause or resume) the flow of logs to the console.
 - help
-- flush queue
-- leave cli
-- exit server
-- (blank line - alias for help)
+- exit the server
 
 It passes any unrecognized commands to the exe function in commands.js.
 

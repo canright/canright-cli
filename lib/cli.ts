@@ -1,140 +1,113 @@
-import cons = require('readline');
+import readline = require('readline');
 import cmds = require('./commands');
 
-var inCli:boolean = false,
-  q:String[] = [];
+const put = (s: String) => console.log(s);
+const ask = (s: string) => {put(s); con.prompt()};
 
-export const con = cons.createInterface(process.stdin, process.stdout);
-export const log = process.stdout;
+/** import spigot = require('./spigot'); */
+
+import stream = require('stream');
+
+const BUFFERSIZE: number = 10485760; // 10MB
+
+function pipeout(out: any, trans: Function) {
+
+  const parms = {objectMode: true, highWaterMark: BUFFERSIZE};
+  const g = new stream.Transform(parms);
+
+  g._transform = function (chunk, enc, done) {
+    var data: String = (this._tail ? this._tail : '') + chunk.toString(),
+      lines: String[] = data.split('\n');
+    this._tail = lines.splice(lines.length-1,1)[0];
+    for (let knt=lines.length, k=0; k<knt; ++k)
+      this.push(trans(lines[k], enc));
+    done();  
+  }
+
+  g._flush = function (done) {
+    put(this._tail`|==> FLUSH: ${this._tail}!`);
+    if (this._tail) this.push(trans(this._tail, null));
+    this.tail = null;
+    done();
+  }
+
+  g.on('drain'   , (err: any, data:any) => {
+    if (err) put(`|==> DRAINERR ${err}`); else put(`|==> DRAIN ${data}`);
+  });
+
+  g.on('readable', (err: any) => {
+    if (err) put(`|==> READABLE ERROR ${err}`); else put('\n- logs are queued.');
+  });
+
+  g.on('error'   , (err: any) => put(`|==> ERROR ${JSON.stringify(err)}`));
+  g.on('close'   , ()         => put('|==> CLOSE SPIGOT'));
+  g.on('end'     , ()         => put('|==> END SPIGOT'  ));
+  g.pipe(out);
+  g.resume();
+  return g;
+}
 
 const CLIOF: string = '',
   CLION: string = '> ',
-  MGOFF: string = 'CLI is off.  Enter to turn it on.',
+  MGOFF: string = 'CLI is off.  Enter to turn it on.';
 
-  TURNON: string =
-`- Logging to the console is paused.
-- Incoming event logs are queued.
-- The CLI is active. Try "help".
-`,
+const RESUME: string = '- Flowing logs. Enter to pause.';
+const PAUSE : string = '- Log flow is paused.  Enter to resume.  Try "help".';
 
-  help:string =
+const HELP: string =
 `CLI Commands:
 ${cmds.help}
 
-> help        -- this help.
-> flush queue -- flush queued logs and continue with the CLI.
-> leave cli   -- flush queued logs and resume normal logging.
-> exit server -- flush queued logs and stop the server.
-`,
+> <enter> -- toggle log flow to console - pause or resume flow.
+> help    -- this help.
+> info    -- system information.
+> exit    -- flush logs and stop the server.
+`;
 
-  put = (s: String) => console.log(s),
-  ask = (s: string) => {put(s); con.prompt()},
+var inCli:boolean = false;
 
-  flu = (x: boolean) => { // flush queue to console. x indicates final check.
-    var knt: Number = q.length;
-    if (knt) {
-      for (let k = 0; k < knt; ++k)
-        put(q.shift());
-      flu(false);
-    } else if (!x)
-      flu(true);
-  },
+export const con = readline.createInterface(process.stdin, process.stdout);
 
-  clion = () => {
-    inCli=true;
-    con.setPrompt(CLION);
-  },
+function processExit() {
+  put('[> close]');
+  process.exit(0);
+}
 
-  clino = () => {
-    flu(false);
-    inCli=false;
-    con.setPrompt(CLIOF);
-  },
+export var log = pipeout(process.stdout,
+  (lin: String, enc: String) => `|== ${enc} ==> ${lin}\n`);
 
-  processExit = () => {
-    put('[> close]');
-    process.exit(0);
-  },
+function info() {
+  put(`Information...`);
+}
 
-  exeQueue = (act: String) => {
+function exiter() { /** exit server: flush queue, leave cli, shutdown the node server process */
+  con.setPrompt(CLIOF);
+  log.resume();
+  inCli=false;
+  put('Exiting node server');
+  processExit();
+}
+
+function flowLog() { /** flush queue then flow logs to console */
+  con.setPrompt(CLIOF);
+  log.resume();
+  inCli=false;
+  put(RESUME);
+}
+
+function exe(r: String[]) {
+  const act: string = r[0].toLowerCase();
+  if (r.length<2)
     switch (act) {
-      case 'flush':
-        clino();
-        clion();
-        put('- Logs are flushed.');
-        break;
-      default:
-        ask(help);
-        break;
+      case ''    : flowLog();   break;
+      case 'help': ask(HELP);   break;
+      case 'exit': exiter();    break;
+      case 'info': info();      break;
+      default    : cmds.exe(r); break;
     }
-  },
-
-  exeCli = (act: String) => {
-    switch (act) {
-      case 'leave':
-        clino();
-        put(`- Logs are flushed.
-- The CLI is off.
-- Incomming events log directly to the console.
-- Enter to return to the CLI.`);
-        break;
-      default:
-        ask(help);
-        break;
-    }
-  },
-
-  exeServer = (act: String) => {
-    switch(act) {
-      case 'exit':
-        clino();
-        put('Exiting node server');
-        processExit();
-        break;
-
-      case 'info':
-        put(`require.main: ${require.main}.`);
-        break;
-
-      default:
-        ask(help);
-        break;
-    }
-  },
-
-  parm = (p: String) => p.toLowerCase(),
-
-  exe = (r: String[]) => {
-    const act: string = parm(r[0]);
-    if (r.length<2)
-      switch (act) {
-        case 'queue' :
-        case 'cli'   :
-        case 'server':
-        case '':
-        case 'help'  : ask(help);      break;
-        default      : cmds.exe(r);    break;
-      }
-    else
-      switch (parm(r[1])) {
-        case 'queue' : exeQueue(act);  break; /* flush queue: flush queue, then continue cli with events logs refilling the queue. */
-        case 'cli'   : exeCli(act);    break; /* leave cli:   flush queue, leave cli and start logging events directly to console. */
-        case 'server': exeServer(act); break; /* exit server: flush queue, leave cli, shutdown the node server process */
-        default      : cmds.exe(r);    break;
-      }
-  };
-
-export const say = (s: String) => { // say the message to the queued console.
-  if (inCli)
-    q.push(s);
-  else {
-    flu(false);
-    put(s);
-  }
-};
-
-put(MGOFF);
-con.setPrompt(CLIOF);
+  else
+    cmds.exe(r);
+}
 
 con.on('close', () => {
   processExit();
@@ -144,7 +117,8 @@ con.on('line', (line: String) => {
   if (!line.length && !inCli) {
     con.setPrompt(CLION);
     inCli = true;
-    ask(TURNON);
+    log.pause();
+    ask(PAUSE);
   } else
     if (inCli)
       exe(line.trim().split(' '));
@@ -153,3 +127,6 @@ con.on('line', (line: String) => {
 
   con.prompt();
 });
+
+put(MGOFF);
+con.setPrompt(CLIOF);
