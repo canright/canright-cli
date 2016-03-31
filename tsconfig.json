@@ -4,11 +4,11 @@
     "target":"ES6",
     "module": "commonjs",
     "moduleResolution": "classic",
-    "declaration": true,
+    "declaration": false,
     "noImplicitAny": true,
-    "removeComments": false,
+    "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": false
 
   },
   "files": [

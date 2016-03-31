@@ -19,9 +19,7 @@ export function exe(r: String[]) {
       break;
 
     default:
-      ask(`command arguments: ${r.map(s => s)}
-------------------
-OK?`);
+      ask(`command arguments: ${r.map(s => s)}.`);
       break;
   }
 }

@@ -4,15 +4,18 @@ import cmds = require('./commands');
 const put = (s: String) => console.log(s);
 const ask = (s: string) => {put(s); con.prompt()};
 
+
+
+
 /** import spigot = require('./spigot'); */
 
 import stream = require('stream');
 
-const BUFFERSIZE: number = 10485760; // 10MB
+const BUFFERSIZE: number = 1048576;
 
-function pipeout(out: any, trans: Function) {
+function pipeout(out: any, buffer: Number, trans: Function) {
 
-  const parms = {objectMode: true, highWaterMark: BUFFERSIZE};
+  const parms: Object = {objectMode: true, highWaterMark: buffer};
   const g = new stream.Transform(parms);
 
   g._transform = function (chunk, enc, done) {
@@ -31,10 +34,6 @@ function pipeout(out: any, trans: Function) {
     done();
   }
 
-  g.on('drain'   , (err: any, data:any) => {
-    if (err) put(`|==> DRAINERR ${err}`); else put(`|==> DRAIN ${data}`);
-  });
-
   g.on('readable', (err: any) => {
     if (err) put(`|==> READABLE ERROR ${err}`); else put('\n- logs are queued.');
   });
@@ -47,41 +46,48 @@ function pipeout(out: any, trans: Function) {
   return g;
 }
 
-const CLIOF: string = '',
-  CLION: string = '> ',
-  MGOFF: string = 'CLI is off.  Enter to turn it on.';
 
-const RESUME: string = '- Flowing logs. Enter to pause.';
-const PAUSE : string = '- Log flow is paused.  Enter to resume.  Try "help".';
 
-const HELP: string =
+const MGOFF: string = 'CLI is off.  Enter to turn it on.',
+  PROMPTNO: string = '',
+  PROMPTON: string = '> ',
+  RESUME: string = '- Flowing logs. Enter to pause.',
+  PAUSE : string = '- Log flow is paused.  Enter to resume.  Try "help".',
+
+  HELP: string =
 `CLI Commands:
 ${cmds.help}
 
-> <enter> -- toggle log flow to console - pause or resume flow.
 > help    -- this help.
 > info    -- system information.
 > exit    -- flush logs and stop the server.
+
+> <enter> -- toggle log flow to console - pause or resume flow.
 `;
 
 var inCli:boolean = false;
 
 export const con = readline.createInterface(process.stdin, process.stdout);
 
+export var log = pipeout(process.stdout, BUFFERSIZE,
+  (lin: String, enc: String) => `|== ${enc} ==> ${lin}\n`);
+
+
+
+
+
+
 function processExit() {
   put('[> close]');
   process.exit(0);
 }
-
-export var log = pipeout(process.stdout,
-  (lin: String, enc: String) => `|== ${enc} ==> ${lin}\n`);
 
 function info() {
   put(`Information...`);
 }
 
 function exiter() { /** exit server: flush queue, leave cli, shutdown the node server process */
-  con.setPrompt(CLIOF);
+  con.setPrompt(PROMPTNO);
   log.resume();
   inCli=false;
   put('Exiting node server');
@@ -89,7 +95,7 @@ function exiter() { /** exit server: flush queue, leave cli, shutdown the node s
 }
 
 function flowLog() { /** flush queue then flow logs to console */
-  con.setPrompt(CLIOF);
+  con.setPrompt(PROMPTNO);
   log.resume();
   inCli=false;
   put(RESUME);
@@ -109,13 +115,20 @@ function exe(r: String[]) {
     cmds.exe(r);
 }
 
+
+
+
+
+
+
+
 con.on('close', () => {
   processExit();
 });
 
 con.on('line', (line: String) => {
   if (!line.length && !inCli) {
-    con.setPrompt(CLION);
+    con.setPrompt(PROMPTON);
     inCli = true;
     log.pause();
     ask(PAUSE);
@@ -129,4 +142,9 @@ con.on('line', (line: String) => {
 });
 
 put(MGOFF);
-con.setPrompt(CLIOF);
+con.setPrompt(PROMPTNO);
+
+
+
+
+
