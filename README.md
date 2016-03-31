@@ -39,27 +39,19 @@ The main server module demonstrates usage.  It is a minimum express web server t
 1. requires the CLI module.
 2. streams the logger (morgan) to cli.log rather than directly to the console.
 
-The CLI module buffers, queues and allows you to manage event logs while the CLI is active.
+The CLI module buffers, queues and allows you to manage the flow of event logs while the CLI is active.
 
-The CLI module handles the mechanics of entering and leaving the CLI by directly handling these commands:
+The CLI facilitates management of the flow of logged events to the console.  It offers a minimal interface that enables the user to easily pause and resume that flow.  The cli  passes commands forward to the exe function in the commands sub-module (commands.ts/js).
 
-- enter blank line to toggle (pause or resume) the flow of logs to the console.
-- help
-- exit the server
-
-It passes any unrecognized commands to the exe function in commands.js.
-
-The commands sub-module is a stub for you to add your specific CLI commands.  For demonstration purposes, commands implements two trivial commands, 'now' and 'hey'.
+The commands sub-module is a stub in which to add application specific CLI commands.  For demonstration purposes, commands implements two trivial commands, 'now' and 'hey'.
 
 The exe function receives an array of strings - the space delimited command and arguments.
 
 #### Features
 
 - No external dependencies (only uses node and express).
-- Built with ES6/2015 - promises, template strings, arrow functions, ...
-- Built with Typescript.  But, the generated js files are included in the distribution so that the Typescript is optional.
+- Stack: Node 4 & 5, Javascript ES6/2015, Typescript, express.
 - Demonstrates simple CLI integrated with web server.
-- Demonstrates functional programming.
 - Demonstrates minimalist node/express web server.
 
 #### Modules:
