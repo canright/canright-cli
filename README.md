@@ -2,7 +2,7 @@
 
 ## A baseline CLI for a web server.
 
-This is a minimalist, baseline CLI ready to be filled in as required.  This is a good wrapping for the implementation of a CLI application.
+This is a minimalist, baseline CLI ready to be filled in as required.  It is intended as a wrapper for the implementation of a CLI application.
 
 At runtime, it works like this:
 
@@ -18,7 +18,7 @@ Upon entering an empty line, CLI puts this to the console:
     - Incoming event logs are queued.
     - The CLI is active. Try "help".
 
-#### Enter 'help' to see get this help:
+#### Enter 'help' to see this:
 
     CLI Commands:
 
@@ -34,7 +34,7 @@ Upon entering an empty line, CLI puts this to the console:
 
 #### Notes:
 
-server.js demonstrates usage.  It is a minimum express web server that:
+The main server module demonstrates usage.  It is a minimum express web server that:
 
 1. requires the CLI module.
 2. streams the logger (morgan) to cli.log rather than directly to the console.
@@ -49,7 +49,7 @@ The CLI module handles the mechanics of entering and leaving the CLI by directly
 
 It passes any unrecognized commands to the exe function in commands.js.
 
-The commands.js sub-module is a stub for you to add your specific CLI commands.  For demonstration purposes, command.js implements two trivial commands, 'now' and 'hey'.
+The commands sub-module is a stub for you to add your specific CLI commands.  For demonstration purposes, commands implements two trivial commands, 'now' and 'hey'.
 
 The exe function receives an array of strings - the space delimited command and arguments.
 
