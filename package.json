@@ -1,6 +1,6 @@
 {
   "name": "canright-cli",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Minimalist CLI for web server",
   "private": false,
   "author": "Jim Canright",
@@ -15,10 +15,11 @@
   "keywords": [
     "CLI",
     "Command Line Interface",
-    "CLI for web server",
+    "CLI for node web server",
     "Javascript ES6/2015",
     "typescript",
     "node",
+    "node os module",
     "CLI server"
   ],
 

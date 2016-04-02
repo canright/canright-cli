@@ -47,11 +47,11 @@ function pipeout(out: any, buffer: Number, trans: Function) {
 
 /* cli ui */
 
-const MGOFF: string = '- CLI is off.  Enter to turn it on.',
+const START: string = '- Event logs are flowing to the console.  Enter to pause.',
   PROMPTNO: string = '',
   PROMPTON: string = '> ',
   RESUME: string = '- Flowing logs. Enter to pause.',
-  PAUSE : string = '- Log flow is paused.  Enter to resume.  Try "help".',
+  PAUSE : string = '- Log flow is paused.  Enter to resume.  CLI is active - try "help".',
 
   INFO: string =
 `CLI INFO Commands:
@@ -154,5 +154,5 @@ con.on('line', (line: String) => {
   con.prompt();
 });
 
-put(MGOFF);
+put(START);
 con.setPrompt(PROMPTNO);

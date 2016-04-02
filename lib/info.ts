@@ -6,19 +6,19 @@ export function os(): Object {
   return {
 // 	eol:       nos.EOL,
     arch:      nos.arch(),
-    cpus:      nos.cpus(),
     endianness:nos.endianness(),
     freemem:   nos.freemem(),
     homedir:   nos.homedir(),
     hostname:  nos.hostname(),
-    loadavg:   nos.loadavg(),
-    netFaces:  nos.networkInterfaces(),
     platform:  nos.platform(),
     release:   nos.release(),
     tmpdir:    nos.tmpdir(),
     totalmem:  nos.totalmem(),
     type:      nos.type(),
-    uptime:    nos.uptime()
+    uptime:    nos.uptime(),
+    cpus:      nos.cpus(),
+    loadavg:   nos.loadavg(),
+    netFaces:  nos.networkInterfaces()
   }
 }
 
@@ -29,8 +29,12 @@ function typer(o) {
   return t === 'object' && Array.isArray(o) ? 'array' : t;
 }
 
-function sayProperty(p: String, v: any): void {
-  put(`- ${head.length?head.join(' ')+' ':''}${p}: ${v}`);
+function header () {
+  return head.length ? head.join(' ') + ' ' : '';
+}
+
+function sayProperty(p: String, v: String): void {
+  put(`- ${header()}${p}: ${v}`);
 }
 
 function sayValue(n, v) {

@@ -18,5 +18,5 @@ app.use(morgan('dev', {stream: cli.log}));
 
 
 
-console.log('Serving HTTP requests at: "localhost: %d"', PORT);
+console.log('- Serving HTTP requests at: "localhost: %d"', PORT);
 app.listen(PORT);
