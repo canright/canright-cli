@@ -1,7 +1,7 @@
-/// <reference path="node.d.ts" />
-/// <reference path="node_modules/express/express.d.ts" />
-/// <reference path="node_modules/body-parser/body-parser.d.ts" />
-/// <reference path="node_modules/morgan/morgan.d.ts" />
+/// <reference path="./node.d.ts" />
+/// <reference path="./express.d.ts" />
+/// <reference path="./body-parser.d.ts" />
+/// <reference path="./morgan.d.ts" />
 
 import readline = require('readline');
 import stream = require('stream');

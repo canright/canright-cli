@@ -5,7 +5,7 @@
     "module": "commonjs",
     "moduleResolution": "classic",
     "declaration": false,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": false
@@ -14,6 +14,7 @@
   "files": [
     "server.ts",
     "lib/cli.ts",
+    "lib/info.ts",
     "lib/commands.ts"
   ]
 }

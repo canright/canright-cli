@@ -1,6 +1,7 @@
 import cli = require('./cli');
 
-const ask = (s: String) => {console.log(s); cli.con.prompt()},
+const put = (s: String) => console.log(s);
+const ask = (s: String) => {put(s); cli.con.prompt()},
   heys: (String[]) = ['there', 'now', 'good looking', 'is for horses'];
 
 export const help = `
@@ -19,7 +20,7 @@ export function exe(r: String[]) {
       break;
 
     default:
-      ask(`command arguments: ${r.map(s => s)}.`);
+      ask(`Unexpected Arguments: ${r.map(s => s)}.`);
       break;
   }
 }

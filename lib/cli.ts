@@ -1,10 +1,9 @@
 import readline = require('readline');
 import cmds = require('./commands');
+import info = require('./info');
 
 const put = (s: String) => console.log(s);
 const ask = (s: string) => {put(s); con.prompt()};
-
-
 
 
 /** import spigot = require('./spigot'); */
@@ -46,13 +45,21 @@ function pipeout(out: any, buffer: Number, trans: Function) {
   return g;
 }
 
+/* cli ui */
 
-
-const MGOFF: string = 'CLI is off.  Enter to turn it on.',
+const MGOFF: string = '- CLI is off.  Enter to turn it on.',
   PROMPTNO: string = '',
   PROMPTON: string = '> ',
   RESUME: string = '- Flowing logs. Enter to pause.',
   PAUSE : string = '- Log flow is paused.  Enter to resume.  Try "help".',
+
+  INFO: string =
+`CLI INFO Commands:
+
+> info os   -- node os module queries.
+> info help -- this help.
+> info      -- this help.
+`,
 
   HELP: string =
 `CLI Commands:
@@ -65,7 +72,7 @@ ${cmds.help}
 > <enter> -- toggle log flow to console - pause or resume flow.
 `;
 
-var inCli:boolean = false;
+var bPause: boolean = false;
 
 export const con = readline.createInterface(process.stdin, process.stdout);
 
@@ -73,78 +80,79 @@ export var log = pipeout(process.stdout, BUFFERSIZE,
   (lin: String, enc: String) => `|== ${enc} ==> ${lin}\n`);
 
 
-
-
-
+/* application functionality */
 
 function processExit() {
   put('[> close]');
   process.exit(0);
 }
 
-function info() {
-  put(`Information...`);
+function inform(area: String) {
+  switch (area) {
+    case 'os': info.saySection(area, info.os()); break;
+    default: ask(INFO); break;
+  }
 }
 
 function exiter() { /** exit server: flush queue, leave cli, shutdown the node server process */
   con.setPrompt(PROMPTNO);
   log.resume();
-  inCli=false;
+  bPause=false;
   put('Exiting node server');
   processExit();
 }
 
-function flowLog() { /** flush queue then flow logs to console */
+/*
+function flowLog() {
   con.setPrompt(PROMPTNO);
   log.resume();
-  inCli=false;
+  bPause=false;
   put(RESUME);
 }
+*/
 
 function exe(r: String[]) {
-  const act: string = r[0].toLowerCase();
-  if (r.length<2)
+  const l: number = r.length,
+    act: string = l ? r[0].toLowerCase() : '';
+  if (l<2)
     switch (act) {
-      case ''    : flowLog();   break;
-      case 'help': ask(HELP);   break;
-      case 'exit': exiter();    break;
-      case 'info': info();      break;
+//    case ''    : flowLog(); break;
+      case 'help': ask(HELP); break;
+      case 'exit': exiter(); break;
+      case 'info': ask(INFO); break;
       default    : cmds.exe(r); break;
     }
   else
-    cmds.exe(r);
+     switch (act) {
+      case 'info': inform(r[1]); break;
+      default    : cmds.exe(r); break;
+    }
 }
 
 
-
-
-
-
-
+/* console implementation */
 
 con.on('close', () => {
   processExit();
 });
 
 con.on('line', (line: String) => {
-  if (!line.length && !inCli) {
-    con.setPrompt(PROMPTON);
-    inCli = true;
-    log.pause();
-    ask(PAUSE);
+  if (!line.length) {
+    bPause = !bPause;
+    if (bPause) {
+      con.setPrompt(PROMPTON);
+      log.pause();
+      ask(PAUSE);
+    } else {
+      con.setPrompt(PROMPTNO);
+      log.resume();
+      put(RESUME);
+    }
   } else
-    if (inCli)
-      exe(line.trim().split(' '));
-    else
-      put(MGOFF);
+    exe(line.trim().split(' '));
 
   con.prompt();
 });
 
 put(MGOFF);
 con.setPrompt(PROMPTNO);
-
-
-
-
-

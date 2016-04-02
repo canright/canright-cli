@@ -1,6 +1,6 @@
 {
-  "name": "cli",
-  "version": "0.2.0",
+  "name": "canright-cli",
+  "version": "0.3.0",
   "description": "Minimalist CLI for web server",
   "private": false,
   "author": "Jim Canright",
