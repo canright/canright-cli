@@ -1,7 +1,5 @@
 import nos = require('os');
 
-const put = (s: String) => console.log(s);
-
 export function os(): Object {
   return {
 // 	eol:       nos.EOL,
@@ -22,6 +20,15 @@ export function os(): Object {
   }
 }
 
+export function canright(): Object {
+  return {
+  	name: 'Jim Canright',
+  	email: 'jim@canright.net',
+  	location: 'Portland, Oregon'
+  }
+}
+
+const put = (s: String) => console.log(s);
 var head = [];
 
 const types = ['string', 'number', 'array', 'object'];
@@ -36,53 +43,40 @@ function header () {
   return head.length ? head.join(' ') + ' ' : '';
 }
 
-function sayProperty(p: String, v: String): void {
+function rptProperty(p: String, v: String): void {
   put(`- ${header()}${p}: ${v}`);
 }
 
 var jal = {
-  string: sayString,
-  number: sayNumber,
-  array:  sayArray,
-  object: sayObject,
-  other:  sayOther
+  string: rptString,
+  number: rptNumber,
+  array:  rptArray,
+  object: rptObject,
+  other:  rptOther
 }
 
-function sayString (n: String, v: String) { sayProperty(n, v) }
-function sayNumber (n: String, v: Number) { sayProperty(n, v.toString()) }
-function sayOther  (n: String, v: any   ) { sayProperty(`${n} ?${typeof v}?`, JSON.stringify(v)) }
-function sayValue  (n: String, v: any   ) { jal[typer(v)](n, v) }
+function rptString (n: String, v: String) { rptProperty(n, v) }
+function rptNumber (n: String, v: Number) { rptProperty(n, v.toString()) }
+function rptOther  (n: String, v: any   ) { rptProperty(`${n} ?${typeof v}?`, JSON.stringify(v)) }
+function rptValue  (n: String, v: any   ) { jal[typer(v)](n, v) }
 
-function sayArray(name: String, a: any[]) {
-  head.push(name);
-  for (var knt=a.length, k=0; k<knt; ++k)
-  	sayValue(`[${k}]`, a[k]);
+function rptArray  (n: String, a: any[]) {
+  head.push(n);
+  a.map( (v, k) => rptValue(`[${k}]`, v));
   head.pop();
 }
 
-function sayObject(name: String, o: Object) {
+function rptObject (name: String, o: Object) {
   head.push(name);
   for (var p in o)
     if (o.hasOwnProperty(p))
-      sayValue(p, o[p]);
+      rptValue(p, o[p]);
   head.pop();
 }
 
-export function saySection(name: String, o: Object) {
+export function report(name: String, o: Object) {
   put(name);
   for (var p in o)
     if (o.hasOwnProperty(p))
-      sayValue(p, o[p]);
+      rptValue(p, o[p]);
 }
-
-/*
-function xayValue(n, v) {
-  switch (typer(v)) {
-    case 'string': sayProperty(n, v); break;
-    case 'number': sayProperty(n, v.toString()); break;
-    case 'array':  sayArray(n, v); break;
-    case 'object': sayObject(n, v); break;
-    default:       sayProperty(`${n} ?${typer(v)}?`, JSON.stringify(v)); break;
-  }
-}
-*/

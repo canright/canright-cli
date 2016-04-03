@@ -56,9 +56,13 @@ const START: string = '- Event logs are flowing to the console.  Enter to pause.
   INFO: string =
 `CLI INFO Commands:
 
-> info os   -- node os module queries.
-> info help -- this help.
-> info      -- this help.
+> info os       -- node os module queries.
+> info help     -- this help.
+> info          -- this help.
+`,
+
+  CANRIGHT: string =
+`Jim Canright
 `,
 
   HELP: string =
@@ -87,9 +91,10 @@ function processExit() {
   process.exit(0);
 }
 
-function inform(area: String) {
-  switch (area) {
-    case 'os': info.saySection(area, info.os()); break;
+function inform(section: String) {
+  switch (section) {
+    case 'os'      : info.report(section, info.os()); break;
+    case 'canright': info.report(section, info.canright()); break;
     default: ask(INFO); break;
   }
 }
@@ -117,15 +122,16 @@ function exe(r: String[]) {
   if (l<2)
     switch (act) {
 //    case ''    : flowLog(); break;
-      case 'help': ask(HELP); break;
-      case 'exit': exiter(); break;
-      case 'info': ask(INFO); break;
-      default    : cmds.exe(r); break;
+      case 'help'    : ask(HELP); break;
+      case 'exit'    : exiter(); break;
+      case 'info'    : ask(INFO); break;
+      case 'canright': ask(CANRIGHT); break;
+      default        : cmds.exe(r); break;
     }
   else
      switch (act) {
-      case 'info': inform(r[1]); break;
-      default    : cmds.exe(r); break;
+      case 'info'    : inform(r[1]); break;
+      default        : cmds.exe(r); break;
     }
 }
 
