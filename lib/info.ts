@@ -24,9 +24,12 @@ export function os(): Object {
 
 var head = [];
 
+const types = ['string', 'number', 'array', 'object'];
 function typer(o) {
   var t = typeof o;
-  return t === 'object' && Array.isArray(o) ? 'array' : t;
+  if (t === 'object' && Array.isArray(o)) t = 'array';
+  if (types.indexOf(t) < 0) t = 'other'
+  return t;
 }
 
 function header () {
@@ -37,7 +40,43 @@ function sayProperty(p: String, v: String): void {
   put(`- ${header()}${p}: ${v}`);
 }
 
-function sayValue(n, v) {
+var jal = {
+  string: sayString,
+  number: sayNumber,
+  array:  sayArray,
+  object: sayObject,
+  other:  sayOther
+}
+
+function sayString (n: String, v: String) { sayProperty(n, v) }
+function sayNumber (n: String, v: Number) { sayProperty(n, v.toString()) }
+function sayOther  (n: String, v: any   ) { sayProperty(`${n} ?${typeof v}?`, JSON.stringify(v)) }
+function sayValue  (n: String, v: any   ) { jal[typer(v)](n, v) }
+
+function sayArray(name: String, a: any[]) {
+  head.push(name);
+  for (var knt=a.length, k=0; k<knt; ++k)
+  	sayValue(`[${k}]`, a[k]);
+  head.pop();
+}
+
+function sayObject(name: String, o: Object) {
+  head.push(name);
+  for (var p in o)
+    if (o.hasOwnProperty(p))
+      sayValue(p, o[p]);
+  head.pop();
+}
+
+export function saySection(name: String, o: Object) {
+  put(name);
+  for (var p in o)
+    if (o.hasOwnProperty(p))
+      sayValue(p, o[p]);
+}
+
+/*
+function xayValue(n, v) {
   switch (typer(v)) {
     case 'string': sayProperty(n, v); break;
     case 'number': sayProperty(n, v.toString()); break;
@@ -46,25 +85,4 @@ function sayValue(n, v) {
     default:       sayProperty(`${n} ?${typer(v)}?`, JSON.stringify(v)); break;
   }
 }
-
-function sayArray(name: String, a:any[]) {
-  head.push(name);
-  for (var knt=a.length, k=0; k<knt; ++k)
-  	sayValue(`[${k}]`, a[k]);
-  head.pop();
-}
-
-export function sayObject(name: String, o:Object) {
-  head.push(name);
-  for (var p in o)
-    if (o.hasOwnProperty(p))
-      sayValue(p, o[p]);
-  head.pop();
-}
-
-export function saySection(name: String, o:Object) {
-  put(name);
-  for (var p in o)
-    if (o.hasOwnProperty(p))
-      sayValue(p, o[p]);
-}
+*/
