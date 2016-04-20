@@ -2,7 +2,7 @@
 
 ## A baseline CLI for a web server.
 
-This is a minimalist, baseline CLI ready to be filled in as required.  It is intended as a wrapper for the implementation of a CLI application.
+This is a minimalist, baseline CLI ready to be filled in as required.  It is intended as a wrapper for the implementation of a CLI application.   This module is not about command line parsing - my needs are simple and, so far, an array of space separated terms is sufficient.  This module supports pause and resume for the std output (console.log) stream to allow cli interaction with out interruption of transaction logs.
 
 At runtime, it works like this:
 
@@ -10,7 +10,7 @@ At runtime, it works like this:
 
 At startup, CLI issues this hint to the console:
 
-    CLI is off.  Enter to turn it on.
+    Logs are streaming.  Enter to pause.
 
 Upon entering an empty line, CLI puts this to the console:
 
@@ -34,14 +34,16 @@ Upon entering an empty line, CLI puts this to the console:
 
 #### Notes:
 
-The main server module demonstrates usage.  It is a minimum express web server that:
+The main canright dns and server modules demonstrates usage.
+
+Here, the server.js implements a minimum express web server that:
 
 1. requires the CLI module.
 2. streams the logger (morgan) to cli.log rather than directly to the console.
 
 The CLI module buffers, queues and allows you to manage the flow of event logs while the CLI is active.
 
-The CLI facilitates management of the flow of logged events to the console.  It offers a minimal interface that enables the user to easily pause and resume that flow.  The CLI looks for and executes its base commands ('help', 'info' 'exit', '') and passes the rest on to applicatin command processor - the exe function in the commands sub-module.
+The CLI facilitates management of the flow of logged events to the console.  It offers a minimal interface that enables the user to easily pause and resume that flow.  The CLI looks for and executes its base commands ('help', 'info' 'exit', '') and passes the rest on to application command processor - the exe function in the commands sub-module.
 
 The commands sub-module (lib/commands.ts/js) is a stub in which to add application specific CLI commands.  For demonstration purposes, commands implements two trivial commands, 'now' and 'hey'.
 
