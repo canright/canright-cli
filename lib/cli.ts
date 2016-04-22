@@ -1,14 +1,10 @@
 import readline = require('readline');
+import stream = require('stream');
 import cmds = require('./commands');
 import info = require('./info');
 
 const put = (s: String) => console.log(s);
 const ask = (s: string) => {put(s); con.prompt()};
-
-
-/** import spigot = require('./spigot'); */
-
-import stream = require('stream');
 
 const BUFFERSIZE: number = 1048576;
 
@@ -83,7 +79,6 @@ export const con = readline.createInterface(process.stdin, process.stdout);
 export var log = pipeout(process.stdout, BUFFERSIZE,
   (lin: String, enc: String) => `|== ${enc} ==> ${lin}\n`);
 
-
 /* application functionality */
 
 function processExit() {
@@ -107,21 +102,11 @@ function exiter() { /** exit server: flush queue, leave cli, shutdown the node s
   processExit();
 }
 
-/*
-function flowLog() {
-  con.setPrompt(PROMPTNO);
-  log.resume();
-  bPause=false;
-  put(RESUME);
-}
-*/
-
 function exe(r: String[]) {
   const l: number = r.length,
     act: string = l ? r[0].toLowerCase() : '';
   if (l<2)
     switch (act) {
-//    case ''    : flowLog(); break;
       case 'help'    : ask(HELP); break;
       case 'exit'    : exiter(); break;
       case 'info'    : ask(INFO); break;
