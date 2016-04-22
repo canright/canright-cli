@@ -2,7 +2,11 @@
 
 ## A baseline CLI for a web server.
 
-This is a minimalist, baseline CLI ready to be filled in as required.  It is intended as a wrapper for the implementation of a CLI application.   This module is not about command line parsing - my needs are simple and, so far, an array of space separated terms is sufficient.  This module supports pause and resume for the std output (console.log) stream to allow cli interaction with out interruption of transaction logs.
+This is a minimalist, baseline CLI ready to be filled in as required.  It is intended as a wrapper for the implementation of a CLI application.
+
+This module is not about command line parsing - my needs are simple and, so far, an array arguments is sufficient.
+
+This module supports pause and resume for the stream from the server logs (console.log) to standard output (console.log).  This allow CLI interaction free from interruption by transaction logs.  Logs generated while the log stream is paused are queued and flushed when the log stream is resumed.
 
 At runtime, it works like this:
 
@@ -12,7 +16,7 @@ At startup, CLI issues this hint to the console:
 
     Logs are streaming.  Enter to pause.
 
-Upon entering an empty line, CLI puts this to the console:
+When the log stream is paused, the CLI puts this to the console:
 
     - Logging to the console is paused.
     - Incoming event logs are queued.
@@ -25,7 +29,7 @@ Upon entering an empty line, CLI puts this to the console:
     > now     -- echo current date and time.
     > hey     -- random heys.
 
-    > <enter> -- toggle log flow to console - pause or resume flow.
+    > <enter> -- resume log stream (enter toggles pause and resume).
     > help    -- this help.
     > info    -- system information.
     > exit    -- flush logs and stop the server.
@@ -34,12 +38,14 @@ Upon entering an empty line, CLI puts this to the console:
 
 #### Notes:
 
-The main canright dns and server modules demonstrates usage.
+The canright dns and server modules demonstrates usage.
 
-Here, the server.js implements a minimum express web server that:
+Here, the sample server.js implements a minimum express web server.
 
-1. requires the CLI module.
-2. streams the logger (morgan) to cli.log rather than directly to the console.
+To add this module to your server:
+
+1. require the CLI module.
+2. stream the logger (here, morgan) to cli.log rather than directly to the console.
 
 The CLI module buffers, queues and allows you to manage the flow of event logs while the CLI is active.
 
@@ -57,8 +63,8 @@ It passes that array of command arguments to the exe function in the commands su
 - Demonstrates simple CLI integrated with web server.
 - Demonstrates minimalist node/express web server.
 
-#### Modules:
+#### Internsl Modules:
 
-- server       - a minimal express web server.
-- lib/cli      - the CLI framework module.
-- lib/commands - stub for non-framework CLI command processors.
+- server.js       - a minimal express web server to demonstrate using the CLI module
+- lib/cli.js      - the CLI framework module.
+- lib/commands.js - stub for non-framework CLI command processors.
