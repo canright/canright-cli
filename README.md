@@ -63,7 +63,7 @@ It passes that array of command arguments to the exe function in the commands su
 - Demonstrates simple CLI integrated with web server.
 - Demonstrates minimalist node/express web server.
 
-#### Internsl Modules:
+#### Internal Modules:
 
 - server.js       - a minimal express web server to demonstrate using the CLI module
 - lib/cli.js      - the CLI framework module.
